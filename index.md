@@ -10,7 +10,7 @@ El curso no asume conocimientos previos de programación, por lo que en la prime
 
 El foco del curso está en exponer la sintaxis de programas escritos en C, Fortran y Python.
 
-Acá podés encontrár algunas de [aplicaciones](/ejemplos/) que trataremos en el curso.
+Acá podés encontrár algunas de [aplicaciones](./ejemplos/) que trataremos en el curso.
 
 # Programa del curso
 
