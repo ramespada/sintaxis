@@ -3,7 +3,7 @@ layout: lecture
 date: 2023-02-03
 title: Profiling
 description: Herramientas para perfilar programas
-ready: true
+ready: false
 ---
 
 # `gprof`

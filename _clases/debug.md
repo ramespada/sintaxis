@@ -3,10 +3,9 @@ layout: lecture
 date: 2023-02-03
 title: Debug 
 description: Herramientas para debbugear programas
-ready: true
+ready: false
 ---
 
-# GDB (GNU Debugger) 
 
 > `gdb` o *GNU Debugger* es el depurador estándar para el compilador GNU. Es un depurador portable que se puede utilizar en varias plataformas Unix y funciona para varios lenguajes de programación como C, C++ y Fortran. GDB fue escrito por Richard Stallman en 1986. GDB es software libre distribuido bajo la licencia GPL. 
 
