@@ -12,20 +12,20 @@ ready: true
 ### Iniciar un repositorio:
 
 ```shell
-	git init
+git init
 ```
 
 ### Agregar archivo y preparar para commit
 
 ```shell
-	cat "hello world" > hello.txt
-	git add hello.txt
+cat "hello world" > hello.txt
+git add hello.txt
 ```
 
 Tambien realizarlo de forma interactiva con el comando:
 
 ```shell
-	git add -p
+git add -p
 ```
 
 esto inicia sesión de ensayo interactiva que permite elegir las partes de un archivo que queres añadir a la siguiente confirmación. Se te presentarán una serie de cambios y se te solicitará un comando. Utiliza `y` para preparar el fragmento, `n` para ignorarlo, `s` para dividirlo en fragmentos más pequeños, `e` para editarlo manualmente y q para salir.
@@ -34,92 +34,92 @@ esto inicia sesión de ensayo interactiva que permite elegir las partes de un ar
 ### Ver estado de repositorio
 
 ```shell
-	git status
+git status
 ```
 
 ### Commit cambios
 
 ```shell
-	git commit -m "add hello file"
+git commit -m "add hello file"
 ```
 Cada commit es como una *fotografía* del repositorio que queda guardada.
 
 Otras opciones de commit:
 ```shell
-	git commit -a
+git commit -a
 ```
 
 Tambien se pude hacer un comit salteando el comando `add` a un archivo en particular:
 ```shell
-	git commit <file>
+git commit <file>
 ```
 
 
 ### Ver historia del repostorio
 ```shell
-	git log --all --graph --decorate
+git log --all --graph --decorate
 ```
 
 ### Ver historial de cambios comandos usados
 
 ```shell
-	git reflog
+git reflog
 
 ```
 
 ### Crear branch
 ```shell
-	git branch myBranch
-	git checkout myBranch
+git branch myBranch
+git checkout myBranch
 ```
 
 
 ```shell
-	git checkout -b myBranch
+git checkout -b myBranch
 ```
 
 ### Merge:
 
 ```shell
-	git merge -b myBranch
+git merge -b myBranch
 ```
 
 ### Ir a otros commits o branches:
 ```shell
-	git checkout myBranch
+git checkout myBranch
 ```
 
 ### Respositorio remoto
 
 Clonar repositorio remoto:
 ```shell
-	git clone origin master
+git clone origin master
 ```
 
 Crear respositorio remoto:
 ```shell
-	git remote
+git remote
 ```
 
 Llevar cambios a repositorio remoto:
 
 ```shell
-	git push
+git push
 ```
 
 Traer objetos y referencias de repo remoto:
 ```shell
-	git fetch
+git fetch
 ```
 
 Traer la version existente en repositorio remoto al repositorio local
 ```shell
-	git pull
+git pull
 ```
 
 es lo mismo que hacer:
 ```shell
-	git pull; git merge
+git pull; git merge
 ```
 
 
@@ -128,7 +128,7 @@ es lo mismo que hacer:
 Ir a commits antiguos y modificar historial, combinar commits, etc.
 
 ```shell
-	git rebase -i HEAD~N
+git rebase -i HEAD~N
 ```
 
 ### UNDO errores:
@@ -136,7 +136,7 @@ Ir a commits antiguos y modificar historial, combinar commits, etc.
 `git restore` sirve para recuperar archivos borrados, o modificados y dejarlos como en el ultimo commit.
 
 ```shell
-	git restore <archivo>
+git restore <archivo>
 ```
 
 se puede usar de formar interactiva por *patches* con `git restore -p`
@@ -144,24 +144,24 @@ se puede usar de formar interactiva por *patches* con `git restore -p`
 
 Modificar ultimo commit:
 ```shell
-	git commit --amend -m "correccion"
+git commit --amend -m "correccion"
 ```
 
 Borrar commits luego de cierto nivel, voy con checkout al lugar que quiero y luego
 ```shell
-	git reset --herd
+git reset --herd
 ```
 
 
 Recuperar commits borrados:
 
 ```shell
-	git reflog
+git reflog
 ```
 
 Recuperar branches borrados:
 ```shell
-	git reflog
+git reflog
 ```
 
 ### Customización:

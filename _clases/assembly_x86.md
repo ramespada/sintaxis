@@ -3,6 +3,7 @@ title: Assembly x86 (32-bits)
 descripcion: Sintaxis básica de Assembly ó Assembler
 date: 2022-01-01
 nav_order: 6
+noclass: true
 ready: false
 ---
 

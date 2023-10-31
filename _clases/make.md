@@ -19,7 +19,6 @@ Un `Makefile` contiene:
 + reglas implicitas (sufijos)
 
 
-
 ## Reglas de dependencia
 
 Un makefile consiste en una serie de reglas con la siguiente estructura:
@@ -34,8 +33,7 @@ El `target` es el nombre de un archivo separado por espacios, tipicamente hay un
 Los comandos son lineas de ejecución con sintaxis de shell que generalmente involucra a los `prerequisitos` y suelen ser usadas para crear el `target`.
 
 
-
-### Ejemplo 1: "Hola Mundo!"
+### Ejemplo 1: "Hola mundo!"
 
 Creemos un `Makefile` con el siguiente contenido:
 ```make
@@ -56,6 +54,7 @@ Si queremos que se imprima el mensaje, pero no el comando, tenemos que agregar e
 hola:
 	@echo "Hola mundo!"
 ```
+
 Si volvemos a ejecutarlo va a mostrar el mensaje "Hola mundo!" y va continuar haciendo lo mismo, siempre y cuando no exista el archivo `hola`. Veamos que ocurre si por ejemplo cremos un archivo `hola` y luego ejecutamos `make`:
 
 ```shell
@@ -92,6 +91,7 @@ Si quisieramos compilar este programa tendramos que realizar los siguientes paso
 ```shell
 $ gcc -o main main.c scale.c
 ```
+
 ó alternativamente:
 ```shell
 $ gcc -c main.c	
@@ -118,7 +118,19 @@ scale.o: scale.c
 	gcc -c scale.c
 ```
 
-Luego para compilar el programa solo necesitamos ejecutar `make`.
+Luego para compilar el programa solo necesitamos ejecutar `make`. 
+
+### Cómo funciona `make`
+Analicemos con más detalle el ejemplo anterior.
+Cuando ejecutamos `make` este lee el Makefile y pasa lo siguiente:
+- va al *target* `main` (por default siempre busca el primero).
+- `main` tiene como prerequisito a `main.o` y `scale.o`. Entonces busca si hay existen los targets `main.o` y `scale.o`
+- va a al target `main.o` cuya dependencia es `main.c` y decide si lo ejecuta (Si `main.o` no existe, ó `main.c` es más nuevo que `main.o` lo ejecuta).
+- lo mismo que el punto anterior con el target `scale.o`
+- vuelve al target `main` y si las dependencias existen lo ejecuta.
+
+
+### `make clean`
 
 Es muy común que los `Makefiles` contangan una regla llamada `clean` que borre automaticamente todos los archivos intermedios creados en la compilación, de manera que si alguien quiere compilar en una computadora con otras características pueda realizar el procedimiento completo de compilación y no queden archivos remanentes que puedan generar errores.
 
@@ -141,7 +153,28 @@ $ ls
 main.c Makefile scale.c
 ```
 
-Por último, supongamos que queremos compilar el programa con algun flag en particular, por ejemplo `-g`, para esto podemos definir una variable antes de las reglas de la siguiente forma:
+### `make all`
+
+A veces queremos ejecutar varios *targets*, es por esto que es común encontrar el target `all` como primer *target* del Makefile:
+
+```make
+all: one two three
+
+one:
+	touch one
+two:
+	touch two
+three:
+	touch three
+
+clean:
+	rm -f one two three
+```
+como ya habiamos visto, el primer target que aparece en un Makefile es el que se ejecuta por default.
+
+### Variables
+
+Supongamos que queremos compilar el programa con algun flag en particular, por ejemplo `-g`, para esto podemos definir una variable antes de las reglas de la siguiente forma:
 ```make
 CFLAGS= -g
 main: main.o scale.o
@@ -153,6 +186,49 @@ scale.o: scale.c
 clean:
 	rm main main.o scale.o 
 ```
+
+las variables son siempre considerados como *strings*, y las comillas simples y dobles son interpretadas literalmente (como un caracter más), por lo que es recomendable no usarlas ó usarlos con cautela. 
+
+
+### Wildcards: `*`  y `%`
+
+Tanto `*` y `%` se conocen como *wildcards* en Make, pero significan cosas distintas.
+ 
+`*` busca en el sistema archivos que cumplan cierto patrón.  Se sugiere usarlo siempre dentro de la función `wildcard()`:
+
+```make
+# Print out file information about every .c file
+print: $(wildcard *.c)
+	ls -la  $?
+```
+
+`*` puede usarse como *target*, prerequisito ó dentro de una función `wildcard`.
+- Danger: * may not be directly used in a variable definitions
+- Danger: When * matches no files, it is left as it is (unless run in the wildcard function)
+
+```make
+thing_wrong := *.o # Don't do this! '*' will not get expanded
+thing_right := $(wildcard *.o)
+
+all: one two three four
+
+# Fails, because $(thing_wrong) is the string "*.o"
+one: $(thing_wrong)
+
+# Stays as *.o if there are no files that match this pattern :(
+two: *.o 
+
+# Works as you would expect! In this case, it does nothing.
+three: $(thing_right)
+
+# Same as rule three
+four: $(wildcard *.o)
+```
+
+`%` es muy útil pero un poco confuso por la variedad de situaciones en el que puede ser utilizado.
+- Si se usa en "matching" mode, matchea uno o más caracteres de un string. Este match se llama *stem*.
+- Si se usa en "replacing" mode, toma un *stem* y lo remplaza eso en el string.
+- `%` se usa en general para definición de reglas y en algunas funciones especificas.
 
 
 ## Sintaxis:
