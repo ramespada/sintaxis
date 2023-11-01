@@ -123,6 +123,7 @@ Ahora nuestro repositorio consiste en dos *commits* ó fotografías:
     commit id: "1204435" type: HIGHLIGHT
 ```
 
+
 ### Ver historia del repostorio
 
 Aveces es útil poder ver el estado del repositorio, y saber cuales son los commits actuales y pasados, para ello existe el comando `git log` que nos muestra la estructura del repositorio:
@@ -230,12 +231,13 @@ La estructura de nuestro repositorio ahora es:
 ```
 
 
-### `cherry pick`
+### `git cherry pick`
 
 
-### `rebase`
+### `git rebase`
 
 
+### `git diff`
 ---
 
 ## Git (remoto)
