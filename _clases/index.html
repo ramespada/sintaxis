@@ -15,7 +15,7 @@ excerpt: '' # work around a bug
         {% if lecture.ready %}
           <a href="{{ site.baseurl }}{{ lecture.url }}">{{ lecture.title }}</a>
         {% elsif lecture.noclass %}
-         {%comment%} {{ lecture.title }} [fuera de programa] {%endcomment%} 
+          {{ lecture.title }} [fuera de programa] 
         {% else %}
           {{ lecture.title }} [coming soon]
         {% endif %}

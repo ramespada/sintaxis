@@ -8,15 +8,13 @@ ready: true
 
 > Fortran es un lenguaje de programación de alto nivel de propósito general, procedimental e imperativo, que está especialmente adaptado al cálculo numérico y a la computación científica.
 
-
-
 ## Hola mundo!
 Para escribir un programa en fortran es necesario abrir con un editor de textos un archivo en blanco, y guardarlo con extensión ``.f90`` y adentro de este escribir el código, por ejemplo:
 
 ```fortran
 program nombre_del_programa
 
-	print*, "Hola mundo!"
+    print*, "Hola mundo!"
 
 end program
 ```
@@ -46,7 +44,7 @@ Ya vimos todos los programas comienzan en `program nombre_del_programa`, y final
 Los *comentarios* son partes del código que **no** se ejecutan, sirven simplemente para dejar mensajes a quienes lean el código en el futuro, y facilitar la comprensión del mismo. En FORTRAN los comentarios se realizan con el símbolo de exclamación (**!**), por ejemplo:
 
 ```fortran
-        !Esto es un comentario
+!Esto es un comentario
 ```
 
 ### Variables y declaración de variables
@@ -57,9 +55,9 @@ Los *comentarios* son partes del código que **no** se ejecutan, sirven simpleme
 
   En la declaración de una variable, primero especificamos de qué *tipo* de variable se trata (más adelante veremos que tipos existen), y su nombre, separados por **::**. Por ejemplo:
 ```fortran
-          implicit none
-          integer :: n    !defino un entero llamado "n"
-          real    :: x,y  !defino dos reales llamados "x" e "y"
+    implicit none
+    integer :: n    !defino un entero llamado "n"
+    real    :: x,y  !defino dos reales llamados "x" e "y"
 ```
 
 se pueden declarar multiples variables en una linea (separandolas por *','*) y los nombres pueden ser letras ó palabras (recuerden que fortran no distingue entre mayúscula y minúscula!)
@@ -71,28 +69,27 @@ A las variables podemos asignarles valores, esto se realiza con el signo **`=`**
 Luego de definir las variables podemos realizar acciones con ellas. Por ejemplo, hagamos un programa que pida el nombre del usuario, lo guarde en una variable y luego lo muestre en pantalla, se escribiria:
 
 ```fortran
-      program nombre_del_programa
+program nombre_del_programa
 
-        !Definición de variables:
-          implicit none
-          character(len=10) :: nombre
+  !Definición de variables:
+  implicit none
+  character(len=10) :: nombre
 
-        !Cuerpo del progrma:
-          print*,"Cuál es tu nombre?"
-          read*, nombre     ! READ guarda lo que escribas adentro de la variable nombre  
-          print*,"Hola ", nombre,", todo tranqui?"
+  !Cuerpo del progrma:
+  print*,"Cuál es tu nombre?"
+  read*, nombre     ! READ guarda lo que escribas adentro de la variable nombre  
+  print*,"Hola ", nombre,", todo tranqui?"
 
-      end program
+end program
 ```               
 ## *Data types*
 
 Cualquier variable que se defina en fortran va a pertenecer a uno de estos 5 tipos:
-
-  1. ``LOGICAL``
-  2. ``INTEGER``
-  3. ``REAL``
-  4. ``COMPLEX``
-  5. ``CHARACTER``
+1. ``LOGICAL``
+2. ``INTEGER``
+3. ``REAL``
+4. ``COMPLEX``
+5. ``CHARACTER``
 
 Cada uno de ellos tiene sus propias características y operaciones.
 
@@ -114,14 +111,13 @@ Estas operaciones toman 1 ó 2 variables lógicas y retornan otra variable lógi
 ### `INTEGER`
 Representan los números enteros. Se declaran: ` integer ::  mi_entero, otro_entero=2`
 #### Operaciones:
-- **Aritméticas:**
-    - Suma (+) y Resta (-)
-    - Multiplicación (\*) y División (/)
-    - Potencia (\*\*)
-
+**Aritméticas:**
+  + Suma (+) y Resta (-)
+  + Multiplicación (\*) y División (/)
+  + Potencia (\*\*)
 *(Advertencia: Los enteros no son cerrados en la division! Por lo tanto esta division retorna el cociente entero.)*
 
-- **Relacionales:**
+**Relacionales:**
 Toman dos *INTEGER* y devuelven un *LOGICAL*, sirven para comparar INTEGER entre sí, por ejemplo sean `n` y `m` dos enteros:
 
 | Sintaxis    | Operación       | Descripcion                                        |
@@ -135,7 +131,7 @@ Toman dos *INTEGER* y devuelven un *LOGICAL*, sirven para comparar INTEGER entre
 
  *(Advertencia: No confundir `==` con la asignación `=`)*
 
-- **Intrinsecas:**
+**Intrinsecas:**
 Las operaciones *intrinsecas* son funciones que vienen pre-definidas en fortran. Las más importantes para `INTEGER` son:
 ```fortran
     abs(n)    ! valor absoluto de n
@@ -150,10 +146,10 @@ Los REAL (también conocidos como *punto flotante*) son los tpos de datos que us
 Para declarar un real escribimos:  `real  :: mi_numero_real`. Si queremos que tenga mas decimales podemos declararlo como `double precision  :: mi_var_doble_precisionx`.
 
 #### Operaciones:
-- **Artiméticas**  (+, - , \* , /, \*\* )
+**Artiméticas**  (+, - , \* , /, \*\* )
     - Tener en cuenta la **precedencia** (jerarquias): la suma y la resta tienen mayor jerarquía que la multiplicación y la división, y estos a su vez mayor jeraquía que la potencia. Ante la duda lo mejor es utilizar todos los **parentesis** que sean necesarios.
   
-- **Intrinsecas**
+**Intrinsecas**
 Hay muchas funciones en fortran definidas para reales, algunas de las más utilizadas son:
 ```fortran 
 sqrt(x); log(x); log10(x); exp(x); sin(x); cos(x) ...
@@ -166,16 +162,16 @@ Estos representan los números complejos (números con parte *real* y parte *ima
 
 #### Operaciones
 
-- **Aritmeticas**  (+ - \* / \*\*)
+**Aritmeticas**  (+ - \* / \*\*)
 
-- **Intrinsecas**
+**Intrinsecas**
 Algunas funciones intrínsecas básicas de complejos son:
  ```fortran
-      real(z)           !devuelve parte real
-      aimag(z)          !devuelve parte imaginaria
-      conjg(z)          !devuelve el conjugado de z
-      abs(z)            !devuelve el módulo de z
-      atan2(real(z), aimag(z)) !devuelve el argumento de z
+   real(z)           !devuelve parte real
+   aimag(z)          !devuelve parte imaginaria
+   conjg(z)          !devuelve el conjugado de z
+   abs(z)            !devuelve el módulo de z
+   atan2(real(z), aimag(z)) !devuelve el argumento de z
 ```
 
 ### `CHARACTER`
@@ -183,14 +179,14 @@ Tambien conocidos como `strings`, se utilizan para almacenar letras y palabras. 
 
 #### Operaciones:
 ```fortran
-len(palabra)                	!devuelve el numero de caractéres
-palabra(3:7) 		    	!substring (de la letra 3 a la 7)
-palabra(3:)//palabra(1:3)   	!concatenación
-trim(palabra)		    	!remueve espacios blancos al final del string
-repeat(palabra,n)           	!concatena (repite) el string n-veces
-index(palabra, patron)      !devuelve la posición en la que aparece 'x' por primera vez
-scan(palabra,set)   !devuelve la pos. en la que aparece alguna de las letras 'set' por primera vez.
-verify(palabra,set) !devuelve la pos. en donde 'palabra' deja de ser igual a 'set'
+   len(palabra)                	!devuelve el numero de caractéres
+   palabra(3:7) 		!substring (de la letra 3 a la 7)
+   palabra(3:)//palabra(1:3)   	!concatenación
+   trim(palabra)		!remueve espacios blancos al final del string
+   repeat(palabra,n)           	!concatena (repite) el string n-veces
+   index(palabra, patron)       !devuelve la posición en la que aparece 'x' por primera vez
+   scan(palabra,set)            !devuelve la pos. en la que aparece alguna de las letras 'set' por primera vez.
+   verify(palabra,set)          !devuelve la pos. en donde 'palabra' deja de ser igual a 'set'
 ```
 
 Operaciones tales como `upper`, `lower`, `replace` o `split` no estan presentes en fortran como operaciones base, pero obviamente pueden ser programadas sin mucha dificultad.
@@ -208,13 +204,13 @@ Los condicionales ejecutan un segmento de código cuando se cumple alguna condic
 #### `IF`
   El **`if`** revisa si se cumple una condición (generalmente expresada en una operación relacional), en caso afirmativo ejecuta una porción de código, y en caso negativo sigue de largo hasta encontrarse con otro condicional, su sintaxis en fortran es así:
 ```fortran
-    if(x > 0) then
-        print*,"x es positivo."
-    else if (x < 0) then
-        print*,"x es negativo."
-    else
-        print*,"x es cero."
-    end if
+  if(x > 0) then
+      print*,"x es positivo."
+  else if (x < 0) then
+      print*,"x es negativo."
+  else
+      print*,"x es cero."
+  end if
 ```
 
 #### `CASE`
@@ -240,24 +236,24 @@ El principal *loop* es el **`do`** (equivalente al **`for`** de otros lenguajes)
 
 Este controlador utiliza un `INTEGER` como *contador* (ó indice), el cual va tomando distintos valores, y las instrucciones contenidas en el bloque `do` se repiten para cada valor del contador. La sitaxis en fortran es:
 ```fortran
-    do i=1,10,2    	!i toma valores del 1 al 10, y avanza de a 2     
-        print*,i   
-    end do
+  do i=1,10,2    	!i toma valores del 1 al 10, y avanza de a 2     
+      print*,i   
+  end do
 ```
 El programa anterior mostrará secuencialmente en pantalla los numeros del 1 al 10. 
 
 #### `DO WHILE`
 Este controlador es una mezcla de los dos anteriores, funciona repitiendo una serie de instrucciones, pero chequiando en cada repetición si una condición se cumple, en caso que deje de cumplirse termina de *iterar*. Su sintaxis es:
 ```fortran
-    do while (i<10)  !ejecutar mientras i sea menor a 10
-        print*,i
-        i=i+2
-    end do
+  do while (i<10)  !ejecutar mientras i sea menor a 10
+      print*,i
+      i=i+2
+  end do
 ```
 Este código hace exactamente lo mismo que el `do` anterior.
 
 ---
-  Algunos comandos útiles para utilizar dentro de controladores son:
+Algunos comandos útiles para utilizar dentro de controladores son:
 - **`STOP`** termina la ejecución del programa.
 - **`EXIT`** sale del bloque controlador.
 - **`CONTINUE`** no hace absolutamente nada (pero aveces queda prolijo).
@@ -277,22 +273,23 @@ Las funciones toman una serie de argumentos (valores de entrada o *inputs*), hac
 
 Por ejemplo, una funcion que suma dos reales se escribe:
 ```fortran
-        function suma(x,y)   result(z)
-          implicit none
-          real, intent(in) :: x,y
-          real :: z
-    
-          z= x+y
-         end function suma
+   function suma(x,y)   result(z)
+     implicit none
+     real, intent(in) :: x,y
+     real :: z
+   
+     z= x+y
+   end function suma
 ```
-  Las variables definidas adentro de la función no tienen por que existir afuera de esta, por esto se las conoce como **dummy arguments** y simplemente linkean las variables externas (que entran como argumentos a la funcion y sí están definidas en el programa) con las variables internas del procedimiento.
 
-  Es recomendable definir la variable de salida (**`result`**), dentro de la funcion, si no se define explicitamente va a tomar el nombre de la funcion.
+Las variables definidas adentro de la función no tienen por que existir afuera de esta, por esto se las conoce como **dummy arguments** y simplemente linkean las variables externas (que entran como argumentos a la funcion y sí están definidas en el programa) con las variables internas del procedimiento.
 
-  Con **`intent`** decidimos si queremos que la variable externa sea modificada ó no, a lo largo del procedimiento.
-  - *`intent(in)`*  significa que la variable se define como *solo lectura*
-  - *`intent(inout)`* lectura y escritura (*default*).
-  - *`intent(out)`*  la variable queda como sólo escritura (no se para que sirve).
+Es recomendable definir la variable de salida (**`result`**), dentro de la funcion, si no se define explicitamente va a tomar el nombre de la funcion.
+
+Con **`intent`** decidimos si queremos que la variable externa sea modificada ó no, a lo largo del procedimiento.
+- *`intent(in)`*  significa que la variable se define como *solo lectura*
+- *`intent(inout)`* lectura y escritura (*default*).
+- *`intent(out)`*  la variable queda como sólo escritura (no se para que sirve).
 
 Una vez definida una función se la invoca en el programa como: `mi_funcion(arg1,arg2)`
 
@@ -301,16 +298,15 @@ Una vez definida una función se la invoca en el programa como: `mi_funcion(arg1
 
   La sintaxis de una subrutina es:
 ```fortran
-      subroutine suma(arg1,arg2,arg3)
-        implicit none
-	
-	real, intent(in)    :: arg1,arg2
-	real, intent(inout) :: arg3
+ subroutine suma(arg1,arg2,arg3)
+   implicit none
+   
+   real, intent(in)    :: arg1,arg2
+   real, intent(inout) :: arg3
 
-	arg3= arg1 + arg2
+   arg3= arg1 + arg2
 
-      end subroutine
-
+ end subroutine
 ```
 
 La subrutinas se invocan escribiendo: ` call mi_subrutina(arg1,arg2,...) `
@@ -331,15 +327,15 @@ Un módulo interno se escribe en el mismo archivo que el programa principal y an
      implicit none
      !Declaración de parametros
 
-      contains
-      !Definición de Subrutinas y Funciones
+     contains
+     !Definición de Subrutinas y Funciones
     
    end module
 
    program main 
-	use mi_modulo
+   use mi_modulo
 
-	... 		!aca va el programa principal
+      ... !aca va el programa principal
 
    end program main
 ```
@@ -379,18 +375,16 @@ Por ejemplo, si queremos definir una funcion que calcule el cuadrado de un numer
     contains
 
     function RaizCuadradaR(x)	result(x_cuadrado)
-		real :: x, x_cuadrado
+   	real :: x, x_cuadrado
     		x_cuadrado=x*x
     end function RaizCuadradaR
 
     function RaizCuadradaC(z)	result(z_cuadrado)
-		complex :: z, z_cuadrado
+   	complex :: z, z_cuadrado
     		z_cuadrado=z*z
     end function RaizCuadradaC
 ```
 Cuando usemos `RaizCuadrada(x)` nos va a devolver el resultado de aquella funcion que sea compatible con `x`. Este proceso de asociar el nombre de una funcion con varias funciones se lo conoce como **overloading**.
-
-
 
 
 ## Input/Output
@@ -401,7 +395,7 @@ Cuando usemos `RaizCuadrada(x)` nos va a devolver el resultado de aquella funcio
   Los standard input/output (abreviados: *stdin*/*stdout*), son las formas más símples de transferencia de información entre la computadora y el usuario.
 
   El *stdin* es el que está vinculado a las entradas que damos desde la consola con nuestro teclado. En FORTRAN el ingreso de *stdinput* se reclama con la función **`read`**:
- ```fortran
+```fortran
     read(*,*),variable
 ```
 
@@ -453,11 +447,11 @@ Otra forma de transferir informacion es mediante el uso de archivos.
 Si queremos abrir un archivo en FORTRAN, tenemos que usar el siguiente comando:
 
 ```fortran
-    open(UNIT=1, FILE='archivo.txt') 	!abrir archivo			   
+   open(UNIT=1, FILE='archivo.txt') 	!abrir archivo			   
     
-	!(aca hariamos algo con el archivo...	)
+   !(aca hariamos algo con el archivo...	)
 
-    close(UNIT=1)			!cerrar archivo
+   close(UNIT=1)			!cerrar archivo
 ```
 Los unicos argumentos obligatorios son `UNIT` y `FILE`. Pero hay otros argumentos opcionales que pueden ser utiles:
 
@@ -480,10 +474,10 @@ Los unicos argumentos obligatorios son `UNIT` y `FILE`. Pero hay otros argumento
 
 Recuerden que `UNIT` es la unidad logica, es un numero entero que nos va a servir para referenciar el archivo siempre que invoquemos alguna funcion que necesite hacer eso del archivo. 
 
-Un argumento muy util es `IOSTAT`, esta es una variable `INTEGER` (que debemos crear previamente) y sirve para saber si fue exitosa la lectura. En base a este podemos planificar un mensaje de error y asi poder ubicar el lugar donde se produjo el error en el codigo. `IOSTAT` se inicializa en 0, cuando termina la lectura cambia a:                                                          
-	- (-1), cuando termina de leer el registro.
-	- (-2), si la lectura se estanca.
-	- numero positivo, si hay un error fatal.
+Un argumento muy util es `IOSTAT`, esta es una variable `INTEGER` (que debemos crear previamente) y sirve para saber si fue exitosa la lectura. En base a este podemos planificar un mensaje de error y asi poder ubicar el lugar donde se produjo el error en el codigo. `IOSTAT` se inicializa en 0, cuando termina la lectura cambia a:
+- (-1), cuando termina de leer el registro.
+- (-2), si la lectura se estanca.
+- numero positivo, si hay un error fatal.
 
 
 ### **`READ`**/**`WRITE`**
@@ -491,15 +485,15 @@ Un argumento muy util es `IOSTAT`, esta es una variable `INTEGER` (que debemos c
 Una vez que tenemos un archivo abierto podemos leer o escribir informacion en el utilizando los mismos comandos que antes, esta vez especificando la `UNIT` correspondiente al archivo en cuestion, si queremos escribir algo:
 
 ```fortran
-	OPEN(UNIT=1, FILE="archivo.txt",STATUS="NEW",ACTION="WRITE")
+   OPEN(UNIT=1, FILE="archivo.txt",STATUS="NEW",ACTION="WRITE")
         WRITE(UNIT=1, FMT='(a30)') 'aca dejo un mensaje'
-	CLOSE(UNIT=1)
+   CLOSE(UNIT=1)
 ```
 y para leer contenido de un archivo:
 ```fortran
-	OPEN(UNIT=1, FILE="archivo.txt",STATUS"OLD",ACTION="READ")
+   OPEN(UNIT=1, FILE="archivo.txt",STATUS"OLD",ACTION="READ")
         READ(UNIT=1,FMT='(a30)') mensaje_leido
-	CLOSE(UNIT=1)
+   CLOSE(UNIT=1)
 ```
 
 ### **`NAMELIST`**
@@ -508,25 +502,25 @@ Los namelist son una forma muy comoda de inicializar un conjunto de variables de
 Dentro de un namelist es un archivo externo que contiene el nombre de un grupo de variables y sus valores, por ejemplo asi:
 ```
 &mi_namelist
-	var1= 1,
-	var3='hola', v4=6.54	!no importan los espacios
-	var2= 2.12321, 		!no hace falta que esten ordenados
-	...
-	varN=.true.,
+   var1= 1,
+   var3='hola', v4=6.54	!no importan los espacios
+   var2= 2.12321, 		!no hace falta que esten ordenados
+   ...
+   varN=.true.,
 /
 ```
 *mi_namelist* es un identificador del namelist, ya que puedo tener varios, incluso en el mismo archivo. Se utilizan los simbolos **&** y **/** para delimitar cada namelist.
 
 Dentro del codigo tenemos que definir el nombre del namelist (en este caso *mi_namelist*), y todas las variables contenidas en el. La sintaxis seria:
 ```fortran
-	namelist/mi_lista/var1,var2,var3,...,varN   	!defino namelist
+   namelist/mi_lista/var1,var2,var3,...,varN   	!defino namelist
 ```
 
 Finalmente para leer el namelist usamos la funcion open/close y read de la siguiente forma:
 ```fortran
-	open(7,file='mi_namelist.inp')			!abro namelist
+   open(7,file='mi_namelist.inp')			!abro namelist
     	read(7,mi_lista)				!leo los valores
-	close(7)					!cierro namelist
+   close(7)					!cierro namelist
 ```
 
 Advertencia: como siempre todas las variables dentro del namelist deben ser definidas antes de definir el namelist y de ser leidas.
@@ -563,7 +557,7 @@ Hay muchas formas de iniciar un array, algunas de las más comúnes:
   n=(/ 4, 3, 8, 7,-1, 0 /)	!Directo en una linea
 
   do i=0,10,2			!Loop
-	n(i)=i
+   n(i)=i
   end do
 
   n=(/ (i,i=0,10,2) /)		!Loop implicito
@@ -581,36 +575,36 @@ Hay muchas formas de iniciar un array, algunas de las más comúnes:
 ```
 
 Algunas operaciones que nos dan información sobre los arrays son:
-  - `size()` devuelve el *numero de elementos total*
-  - `shape()` devuelve un array con el numero de elementos por dimension
-  - `lbound()` `ubound()`, devuelve el min/max indice de cada dimension (recuerden: no siempre empiezan en 1) 
+- `size()` devuelve el *numero de elementos total*
+- `shape()` devuelve un array con el numero de elementos por dimension
+- `lbound()` `ubound()`, devuelve el min/max indice de cada dimension (recuerden: no siempre empiezan en 1) 
 
 ### Acceso y asignación
 Se puede acceder a los elementos de los arrays de la siguiente forma:
 
 ```fortran
-    A(3,1)	    !Acceso elemento [fila:3, columna:1]
-    A(:,1)	    !Acceso columna 1
-    A(2,2:3)	  !Acceso fila 2, columnas del 2 a 3
-    A(1:6:2,:)  !Acceso a filas del 1 al 6, cada 2 filas
-	
-    A(3,1)=5.1	!asignar valores a un elemento
-    A(3:5,1)=(/ 1.4, 2.0, 8.7 /)	!asignar valores a un conjunto de elementos
+  A(3,1)	    !Acceso elemento [fila:3, columna:1]
+  A(:,1)	    !Acceso columna 1
+  A(2,2:3)	  !Acceso fila 2, columnas del 2 a 3
+  A(1:6:2,:)  !Acceso a filas del 1 al 6, cada 2 filas
+  
+  A(3,1)=5.1	!asignar valores a un elemento
+  A(3:5,1)=(/ 1.4, 2.0, 8.7 /)	!asignar valores a un conjunto de elementos
 ```
 
 ### Algunas operaciones
 
 Algunas operaciones basicas que pueden realizarse con arrays:
 ```fortran
-    !Aritmética
-    A+A*2    	 !operan elemento por elemento
+   !Aritmética
+   A+A*2    	 !operan elemento por elemento
 
-    sum(A)    	!suma todos los elementos de A
-    product(A) 	!producto de todos los elementos de A
+   sum(A)    	!suma todos los elementos de A
+   product(A) 	!producto de todos los elementos de A
 
-    all(A>0)     !Todos los elementos de  A > 0?    (.true./.false.)
-    any(A<0)     !Algún elemento de A es < 0 ? 	    (.true./.false.) 
-    count(A>0.2) !Cuantos elementos cumplen A>0.2 ? 
+   all(A>0)     !Todos los elementos de  A > 0?    (.true./.false.)
+   any(A<0)     !Algún elemento de A es < 0 ? 	    (.true./.false.) 
+   count(A>0.2) !Cuantos elementos cumplen A>0.2 ? 
 ```
 
 ## Memoria y portabilidad
@@ -628,28 +622,28 @@ Cualquier variable que definimos ocupa un espacio en la memoria el cual se le es
 En fortran, para definir una variable dinamica escribimos:
 
 ```fortran
-    real, allocatable   ::  var(:)
+  real, allocatable   ::  var(:)
 ```
 Notar que agregamos la sentencia **`allocatable`**, y además reemplazamos el número de elementos de cada dimensión por el simbolo **`:`**, esto deja el tamaño de la variable indefinido. Sin embargo, cuando quiera hacer uso de la variable voy a tener que especificar su tamaño, esto se hace:
 
 ```fortran
-   ALLOCATE(name(bounds) ) ! Asignar memoria
+  ALLOCATE(name(bounds) ) ! Asignar memoria
 ```
 donde *bounds* es `shape` deseado para la variable.
 
 Cuando querramos liberar memoria podemos *desalocatar* a la variable, así:
 
 ```fortran
-   DEALLOCATE(name)        ! Liberar memoria
+  DEALLOCATE(name)        ! Liberar memoria
 ```
 
 #### Fugas de memoria:
-   El manejo de la memoria recae sobre nosotros cuando usamos variables dinámicas.
-   La memoria alocatada solo se libera cuando:
-  - usamos deallocate
-  - se termina el programa
+El manejo de la memoria recae sobre nosotros cuando usamos variables dinámicas.
+La memoria alocatada solo se libera cuando:
+- usamos deallocate
+- se termina el programa
 
- Las variables *LOCALES* (dentro de subrutinas y funciones) tienen que ser desalocatadas al final del procedimiento!!
+Las variables *LOCALES* (dentro de subrutinas y funciones) tienen que ser desalocatadas al final del procedimiento!!
 Con `ALLOCATED(a)` preguntamos si está allocatado.
 
 
@@ -663,21 +657,21 @@ FORTRAN para evitar estos problemas permite definir la memoria asignada para rep
 
 Para representar numeros enteros **`INTEGER`** se utiliza 1 bit para definir al signo (+/-) y el resto de bits para construir el numero enteroen base 2 o binaria. 
 
-|bits|**`kind`**|nombre | rango (sin signo)		    | rango (con signo)			                                                |
-|:---|--------- |:------|:---------------------------------:  |:--------------------------------------------------------- |
-|1   |	-       |bit	  |2<sup>1 </sup>=2		                  |+/-				    			                                      |
-|8   |	1       |byte   |2<sup>8 </sup>=256 		              |+/- 2<sup>7 </sup>=(-128;127) 	    			                  |
-|16  |	2       |half   |2<sup>16</sup>=65536 		            |+/- 2<sup>15</sup>=(-32768;32767) 		   		                |
-|32  |	4       |single |2<sup>32</sup>=4294967296	          |+/- 2<sup>31</sup>=(-2147483648;2147489647)	 	            |
+|bits|**`kind`**|nombre | rango (sin signo)		    | rango (con signo)			                          |
+|:---|----------|:------|:---------------------------------:|:------------------------------------------------------------|
+|1   |	-       |bit	|2<sup>1 </sup>=2                   |+/-				    			  |
+|8   |	1       |byte   |2<sup>8 </sup>=256                 |+/- 2<sup>7 </sup>=(-128;127) 	    			  |
+|16  |	2       |half   |2<sup>16</sup>=65536               |+/- 2<sup>15</sup>=(-32768;32767) 		   		  |
+|32  |	4       |single |2<sup>32</sup>=4294967296          |+/- 2<sup>31</sup>=(-2147483648;2147489647)	 	  |
 |64  |	8       |double |2<sup>64</sup>=18446744073709551616  |+/- 2<sup>63</sup>=(-9223372036854775808;922372036854775807) |
 
 La sintaxis es simplemente:
 ```fortran
-	implicit none
-	integer(kind=1)	:: i8
-	integer(kind=2)	:: i16
-	integer(kind=4)	:: i32
-	integer(kind=8)	:: i64
+   implicit none
+   integer(kind=1)	:: i8
+   integer(kind=2)	:: i16
+   integer(kind=4)	:: i32
+   integer(kind=8)	:: i64
 ```
 Lamentablemente, tambien ocurre que el codigo de `kind` significa distintas cosas en distintos compiladores. Para resolver definitivamente esto inventaron una funcion `SELECTED_INT_KIND(R)` que devuelve el kind necesario para representar numeros en el intervalo (10<sup>-R</sup> ; 10<sup>R</sup>).
 
@@ -717,10 +711,9 @@ end type
 
 ! Definción de estructura "rectangulo"
 type rectangulo{
-	type(punto) :: pt1
-	type(punto) :: pt2
+   type(punto) :: pt1
+   type(punto) :: pt2
 end type
-
 ```
 
 Para llamar a una variable dentro de una estructura la sintaxis es:
@@ -735,11 +728,11 @@ Es posible definir funciones sobre estructuras:
 
 ```fortran
 function punto makePoint(x,y) result(tmp)
-	implicit none
-	type (punto) :: tmp
+   implicit none
+   type (punto) :: tmp
         real :: x, y
-	tmp%x=x
-	tmp%y=y
+   tmp%x=x
+   tmp%y=y
 end function
 ```
 
