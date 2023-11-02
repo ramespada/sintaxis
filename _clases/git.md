@@ -18,52 +18,52 @@ En esta primera parte vamos a ver como utilizar Git de forma local (sin acceder 
 
 Para comenzar a utilizar git es necesario ir a una carpeta donde se quiere producir el respositorio e iniciar git con:
 ```shell
-usuario@pc:~/test_git$ git init
+$ git init
 Initialized empty Git repository in /home/usuario/test_git/.git/
 ```
+Git nos dice que se creo un repositorio (vacío).
 
-Un repositorio (vacío) se generó.
+Antes de seguír veamos como se estructura nuestro ambiente de desarrollo local:
+- **Directorio de trabajo** ó *Working directory*: es el espacio donde trabajamos y modificamos nuestros archivos. En este espacio Git no trackea ni guarda modificaciones. Es decir si algo se modifica ó pierde dentro de este espacio no hay forma de recuperarlo.
+- *Stage* (también conocido como Index). Es un espacio intermedio entre el *working directory* y el *History*, acá pondemos archivos temporalmente que luego van a actualizar el estado del repositorio.
+- *History* ó **repositorio local**, este es el espacio más importante. Acá es donde se van a ir almacenando sucesivas "versiones" ó estados del repositorio que llamaremos *commits*. Cada vez que envíamos uno ó un grupo de archivos al *History* (decimos que hacemos un *commit*) actualizamos el estado del proyecto y se crea una nueva "fotografía" del repositorio. Esta fotografía representa el estado del repositorio de ese momento y que luego puede ser utilizada para comparar con las versiones anteriores y posteriores del repositorio (entre otras cosas).
 
-Antes de seguír vamos a armarnos una imagen conceptual de cómo se estructura el repositorio, para poder entender como trabajar.
-
-Un respositorio local tiene 3 partes ó etapas:
-- Directorio de trabajo ó *Working directory*: es el espacio donde trabajamos, donde modificamos nuestros archivos. En este espacio git no trackea ni guarda modificaciones. Es decir si algo se modifica dentro de este espacio no hay forma de volver atrás.
-- *Stage* (Index). Es un espacio intermedio entre el *working directory* y el *History*, acá se envían archivos temporalmente que luego serán parte del historial del repositorio.
-- *History* ó repositorio local, este es el espacio donde se van a ir almacenando sucesivas "versiones" ó etapas del trabajo del repositorio. Cada vez que envíamos un grupo de archivos al *History* (decimos que hacemos un *commit*) se crea una nueva "fotografía" del repositorio, que luego puede ser utilizada para comparar con las versiones anteriores y posteriores del repositorio, entre otras cosas.
-
-Al principio esto puede resultar bastante abstracto, pero a medida que vayamos usando Git va a ir quedando más claro. 
+Sé que al principio esto puede resultar bastante abstracto, pero a medida que usemos Git vamos a entender cual es la función de cada espacio. 
 
 ```mermaid
 flowchart BT
-W[Working directory];
-S[Stage];
-H[History];
+W(Working directory);
+S(....Stage........);
+H(Repositorio local);
 H--git checkout-->S;
 S--git reset   -->W;
 W--git add     -->S;
 S--git commit  -->H;
+    style W fill:#faa,stroke:#f77,stroke-width:2px,padding:20px
+    style S fill:#afa,stroke:#7f7,stroke-width:2px,padding:20px
+    style H fill:#aaf,stroke:#77f,stroke-width:2px,padding:20px 
 ```
-Hay comandos especificos que nos permiten mover archivos desde un espacio a otro.
-- `git add <archivos>` copia los archivos en su estado actual al *stage*.
-- `git commit` genera una nueva fotografía (*snapshot*) del *stage* en el *history*.
+Lo primero a resolver es como mover archivos de un espacio a otro, para eso hay una serie de comandos:
+- `git add <archivos>` copia los archivos en su estado actual del directorio de trabajo al *stage*.
+- `git commit` lleva los archivos del *stage* al *history* (crea un nuevo *commit*).
 - `git reset <archivos>` saca del *stage* un archivo, es decir lo copia del último commit y lo pone en el *stage*. 
-- `git checkout <archivos>` copia los archivos desde el *stage* al *working directory*. Sirve para descartar cambios locales.
+- `git checkout <archivos>` copia los archivos desde el *stage* al directorio de trabajo. Sirve para descartar cambios locales.
 
-A continuación vamos a ver basado en un ejemplo y con más detalle estos comandos.
+A continuación vamos a construir un ejemplo para ver estos comandos en práctica.
 
 ### Agregar archivo al stage
-Primero vamos a crear un archivo con algún contenido, y luego llevarlo al *stage*:
+En nuestro repositorio vacío, vamos a crear un archivo con algún contenido y luego lo llevaremos al *stage*:
 
 ```shell
-usuario@pc:~/test_git$ cat "Hola mundi" > saludo.txt
-usuario@pc:~/test_git$ git add saludo.txt
+$ cat "Hola mundi" > saludo.txt
+$ git add saludo.txt
 ```
 
 ### Ver estado de repositorio
-Un comando muy útil es `git status`, este te permite conocer en que estado se encuentra el *working directory*:
+Un comando muy útil es `git status`, este te permite conocer en que estado se encuentra el *working directory* yel *stage*:
 
 ```shell
-usuario@pc:~/test_git$ git status
+$ git status
 On branch master
 
 No commits yet
@@ -72,46 +72,43 @@ Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
 	new file:   saludo.txt
 ```
+El comando nos está diciendo que estamos en la rama (ó *branch*) "master" (a veces se llama main), que no hay commits aún (es decir que el history está vacío) y que hay un archivo nuevo "saludo.txt" en el stage.
 
-El comando nos dice que estamos en la rama (*branch*) principal ó "master" (a veces se llama main), nos indica que no hay commits aún (es decir que el history está vacío) y que hay un archivo nuevo "saludo.txt" en el stage.
+### Hacer un commit
 
-### Commit cambios
-
-Para llevar el archivo al *history* tenemos que realizar un *commit*:
+Para llevar el archivo al *history* usamos el comando `git commit`:
 
 ```git
-usuario@pc:~/test_git$ git commit -m "agrego archivo saludo.txt"
+$ git commit -m "agrego archivo saludo.txt"
 [master (root-commit) 6597b4d] agrego archivo saludo.txt
  1 file changed, 1 insertion(+)
  create mode 100644 saludo.txt
 ```
-
 generalmente `git commit` se ejecuta con la opción `-m` que sirve para dejar un mensaje o descripción del cambio que se realizó.
 
-Recordemos la analogía de que cada commit es como una *fotografía* del repositorio que queda guardada en el repositorio.
+Este commit será el primer *nodo* (estado ó "fotografía") dentro del repositorio local:
 
 ```mermaid
     gitGraph
     commit id: "6597b4d" type: HIGHLIGHT
 ```
-Notar que a cada "commit" se le asigna un hash (ó id) que lo identifica, en este ejemplo es: "6597b4d".
-
+Notar que a cada "commit" se le asigna un *hash* (ó id) que lo identifica, en este ejemplo es: "6597b4d".
 
 Si corremos `git status` obtenemos:
 ```git
-usuario@pc:~/test_git$ git status
+$ git status
 On branch master
 nothing to commit, working tree clean
 ```
-nos dice que no hay nada para "comitear" (nada en el *stage*) y que el directorio de trabajo está limpio (nada en el *working directory*).
+nos dice que no hay nada para "commitear" (nada en el *stage*) y que el directorio de trabajo está limpio (nada en el *working directory*).
 
 
 Vamos a generar ahora un nuevo commit, corrigiendo el error que habia en el archivo saludo.txt (decía "Hola mundi" en lugar de "Hola mundo"), y luego vamos a crear un nuevo commit con el archivo modificado:
 
 ```shell
-usuario@pc:~/test_git$ echo "Hola mundo" > saludo.txt
-usuario@pc:~/test_git$ git add saludo.txt
-usuario@pc:~/test_git$ git commit -m "corrección ortográfica"
+$ echo "Hola mundo" > saludo.txt
+$ git add saludo.txt
+$ git commit -m "corrección ortográfica"
 [master 1204435] corrección ortográfica
  1 file changed, 1 insertion(+), 1 deletion(-)
 ``` 
@@ -123,121 +120,151 @@ Ahora nuestro repositorio consiste en dos *commits* ó fotografías:
     commit id: "1204435" type: HIGHLIGHT
 ```
 
-
 ### Ver historia del repostorio
 
-Aveces es útil poder ver el estado del repositorio, y saber cuales son los commits actuales y pasados, para ello existe el comando `git log` que nos muestra la estructura del repositorio:
+Para visualizar el estado del repositorio local usamos el comando `git log`:
 ```shell
-usuario@pc:~/test_git$ git log --oneline
+$ git log --oneline
 1204435 (HEAD -> master) corrección ortográfica
 6597b4d agrego archivo saludo.txt
 ```
-el comando nos muestra los dos commits que hicimos, con su correspondiente descripción, y además nos indica que el "cabezal" (**HEAD**) está posicionado en el commit `1204435`, es decir, en el último commit que hicimos.
+el comando nos muestra los dos commits que hicimos, con su correspondiente descripción. Además nos indica que el "cabezal" (**HEAD**) está posicionado en el commit `1204435`, en este caso en el último commit que hicimos. El HEAD representa nuestra posición en el repositorio.
 
-Si queremos ir a ver una versión anterior podemos usar el commando `git checkout`:
+
+### Navegar por el repositorio
+
+Si queremos ir a ver una versión anterior podemos usar el commando `git checkout <hash>`:
 ```shell
-usuario@pc:~/test_git$ git checkout 6597b4d
+$ git checkout 6597b4d
 ```
 
-Ahora si hacemos `git log` veremos que estamos parados con el HEAD en el commit anterior:
+Para verificar nuestra posición podemos usar `git log` :
 ```shell
-usuario@pc:~/test_git$ git log --oneline --all
+$ git log --oneline --all
 1204435 (master) corrección ortográfica
 6597b4d (HEAD) agrego archivo saludo.txt
-usuario@pc:~/test_git$ cat saludo.txt 
+$ cat saludo.txt 
 Hola mundi
 ```
-notar que incluso el archivo que cambiamos volvio a su versión previa.
+vemos que ahora el HEAD está en el commit anterior. Incluso el archivo que cambiamos volvio a su versión previa, es decir tenemos en el directorio de trabajo la versión de los archivos del commit en el que estamos. 
 
-Para volver a la última versión del repositorio lo hacemos con `git commit`:
+Para volver a la última versión del repositorio lo hacemos con `git checkout`:
 ```shell
-usuario@pc:~/test_git$ git checkout 1204435
+$ git checkout 1204435
 ```
-ó alternativamente:
+ó alternativamente usando el nombre de la rama a la que queremos ir (en nuestro caso master es el único branch):
 ```shell
-usuario@pc:~/test_git$ git checkout master
+$ git checkout master
 ```
+
+
+### Crear branch
+
+Ya vimos como crear nuevos commits, y como movernos en el repositorio, ahora exploremos una característica importante de `git` que es la posibilidad de generar ramificaciones (*branches*) en el repositorio:
+
+Supongamos que queremos producir una rama paralela de este (inútil) proyecto que contenga un archivo de despedida.
+
+Primero tenemos que generar una rama nueva, esto se puede realizar con el comando `git checkout -b <nueva_rama>`:
+
+```shell
+$ git checkout -b "despedida"
+Switched to a new branch 'despedida'
+```
+
+Hacemos las modificaciones:
+```shell
+$ echo "Chau mundo" > despedida.txt
+$ git add 
+$ git commit -m "agregar despedida.txt"
+[despedida d7687ef] agregar despedida.txt
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+Con `git log --oneline --all` vamos a poder ver como queda nuestro repositorio.
+
+```mermaid
+    gitGraph
+    commit id: "6597b4d"
+    commit id: "1204435"
+    branch despedida
+    commit id: "d7687ef" type: HIGHLIGHT
+```
+
+### Merge:
+
+Ahora supongamos que queremos incorporar nuestra modificación al branch principal, para esto tenemos que "unir" los dos branches usando el comando `git merge`.
+
+Lo primero que hacemos es volver a nuestro branch principal y luego lo "mergeamos" con el branch nuevo (`despedida`):
+```shell
+$ git checkout master
+$ git merge -b despedida
+```
+
+La estructura de nuestro repositorio ahora es:
+```mermaid
+   gitGraph
+   commit id: "6597b4d"
+   commit id: "1204435"
+   branch despedida
+   commit id: "d7687ef"
+   checkout main
+   merge despedida type: HIGHLIGHT
+```
+
+
+### `git cherry pick`
+
+A veces queremos traer de otro branch no la totalidad de las modificaciones, sino tan solo un commit en particular. Para esto existe el comando `git cherry pick`
+
+cherry-pick "copia" un commit, creando un nuevo commit en el branch donde estamos parados con el mismo mensaje que el otro commit.
+
+### `git rebase`
+
+Aveces ocurre que abrimos un branch, lo empezamos a trabajar y en paralelo el otros branches siguen avanzando de forma tal que el nuestro queda desactualizado. En cierto punto quizá querramos traer toda las modificaciones que se hicieron en el resto de las ramas, sin que esto implique hacer un `merge` ya que nuestro branch puede no estar finalizado. Para casos como este podemos usar `git rebase` 
+
+
+Se puede pensar a `rebase` como una forma corta de hacer sucesivos `cherry pick`.
+
+### `git diff`
+
+Para comparar dos commits podemos existe el comando `git diff`:
+
+```shell
+$ git diff master master~2
+```
+
+También podemos usar git diff para comparar los archivos del directorio de trabajo con el último commit simplemente usando `git diff` (sin argumentos).
+
+
+### `git stash`
+
+Si tenemos archivos modificados en el directorio de trabajo y queremos ir a revisar un commit viejo, al intentar ir nos git va a tener un conflicto de versiones (ya que al hacer `checkout` git trae al directorio de trabajo la versión del commit al que vamos). En estos casos tenemos dos alternativas:
+- hacemos un nuevo commit con los cambios actuales (aunque estén a medio hacer)
+- ó podemos usar `git stash` para guardar estos archivos temporalmente en un espacio aparte, ir a revisar otras versiones, despues volver y recuperar nuestro trabajo del stash.
+
+```shell
+$ echo "cosa nueva.." >> saludo.txt
+$ git stash
+Saved working directory and index state WIP on master: d484fef agregar archivo despedida.txt
+```
+
+si hacemos `git status` vamos a ver que no hay nada en el working directory ni en el stage, por lo que es seguro ir a visitar viejos commits.
+
+Si queremos ver las cosas que tenemos guardadas en el stash usamos: `git stash --list`.
+
+Para traer las modificaciones desde el stash al directorio de trabajo usamos  `git stash pop <stash_id>`. En nuestro caso `git stash pop stash@{0}`.
 
 ### Ver historial de cambios comandos usados
 
 Para revisar los comandos que fueron ejecutados existe el commando `git reflog`:
 ```shell
-usuario@pc:~/test_git$ git reflog
+$ git reflog
 1204435 (HEAD -> master) HEAD@{2}: checkout: moving from 6597b4d to master
 6597b4d HEAD@{3}: checkout: moving from master to 6597b4d
 1204435 (HEAD -> master) HEAD@{4}: commit: corrección ortográfica
 6597b4d HEAD@{5}: commit (initial): agrego archivo saludo.txt
 ```
 
-### Crear branch
-
-Ya vimos como crear nuevos commits, y como movernos en el repositorio, ahora exploremos una característica importante de `git` que es la posibilidad de generar ramificaciones (*branches*) en el repositorio:
-
-Supongamos que queremos producir una rama paralela de este (inútil) proyecto pero en otro idioma.
-
-Primero tenemos que generar una rama nueva, esto se puede realizar con el comando:
-
-```shell
-usuario@pc:~/test_git$ git checkout -b "con_despedida"
-git checkout -b castellano
-Switched to a new branch 'con_despedida'
-```
-
-Hacemos las modificaciones:
-```shell
-usuario@pc:~/test_git$ echo "Hola mundo" > saludo.txt
-usuario@pc:~/test_git$ git add 
-usuario@pc:~/test_git$ git commit -m "saludo en castellano"
-[castellano d7687ef] saludo en castellano
- 1 file changed, 1 insertion(+), 1 deletion(-)
-```
-Y vemos como quedó nuestro repositorio:
-```shell
-usuario@pc:~/test_git$ git log --oneline
-d7687ef (HEAD -> castellano) saludo en castellano
-1204435 (master) corrección ortográfica
-6597b4d agrego archivo saludo.txt
-```
-Nuestro repositorio ahora se ve así:
-```mermaid
-    gitGraph
-    commit id: "6597b4d"
-    commit id: "1204435"
-    branch con_despedida
-    commit id: "d7687ef" type: HIGHLIGHT
-```
-
-otra forma equivalente a esto es:
-
-### Merge:
-
-Ahora supongamos que queremos que el branch principal incorpore el nuevo archivo, para eso tenemos que "unir" los dos branches, para esto existe el comando `git merge`.
-
-Lo primero que hacemos es volver a nuestro branch principal y luego lo "mergeamos" con el branch nuevo (`con_despedida`):
-```shell
-usuario@pc:~/test_git$ git checkout master
-usuario@pc:~/test_git$ git merge -b con_despedida
-```
-
-La estructura de nuestro repositorio ahora es:
-```mermaid
-    gitGraph
-    commit id: "6597b4d"
-    commit id: "1204435"
-    branch con_despedida
-    commit id: "d7687ef"
-    checkout main
-    merge con_despedida type: HIGHLIGHT
-```
-
-
-### `git cherry pick`
-
-
-### `git rebase`
-
-
-### `git diff`
 ---
 
 ## Git (remoto)
