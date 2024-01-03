@@ -46,13 +46,14 @@ Los sistemas UNIX suelen tener una estructura de directorios (carpetas) bastante
   - `/usr/lib`: librerias comaprtidas entre usuarios.
 
 ## Prompt
+
 Cuando abras la terminal (con ``ctrl``+``T``) te vas a encontar con algo asi:
 ```shell
 usuario@pc:mi_dir$
 ```
 
 Esto se conoce como **promt**, antecede siempre al cursor, y nos da alguna informacion de cual es nuestro estado.
-Lo primero que dice es quien es el usuario que va a ejecutar las instrucciones (*usuario*), luego del **`@`** dice desde que computadora (*mipc*), seguido de **`:`** dice el directorio en el que estamos ubicados dentro de *pc*, y por ultimo un signo que indica los privilegios del usuario (**`$`**: usuario normal, **`#`**:superuser/admin).
+Lo primero que dice es quien es el usuario que va a ejecutar las instrucciones (*usuario*), luego del **`@`** dice desde que computadora (*pc*), seguido de **`:`** dice el directorio en el que estamos ubicados dentro de *pc*, y por ultimo un signo que indica los privilegios del usuario (**`$`**: usuario normal, **`#`**:superuser/admin).
 El prompt es completamente customizable y por lo tanto es posible encontrar otras estructuras, pero en general por default tienen estos elementos.
 
 ## Navegación
@@ -115,7 +116,7 @@ Por ejemplo en linux, `ls` manda sus resultados a un archivo especial llamado *s
 
 Ademas muchos programas toman sus argumentos de un *stdin*, por default linkeado a las entradas desde el teclado.
 
-## Redireccion de stdout stdin
+## Redireccion de `stdout` `stdin`
 Las salidas de los comandos por default generalmente van a la pantalla, y los inputs se toman desde el teclado.
 Sin embargo podemos decidir donde llevar los stdin/stdout utilizando comandos de redireccion:
 
@@ -127,6 +128,18 @@ usuario@pc:~$ cat archivo >> archivo 	   #archivo a  archivo (lo agrega)
 usuario@pc:~$ cat animales | sort	   #comando a  comando ("pipe")
 usuario@pc:~$ echo "Hola" | tee archivo	   #stdin    a  archivo y stdout ("tee")
 usuario@pc:~$ echo "Algo" | xargs mkdir	   #xargs: ejecuta comandos de un standard input (los pasa a argumentos de comandos)
+```
+
+### Redirección stderr
+
+```shell
+ls -l /bin/usr 2> /dev/null
+```
+
+ver status
+
+```shell
+echo $?
 ```
 
 ## Archivos de texto:
@@ -246,7 +259,8 @@ usuario@pc:~$ chgrp archivo	#change group
 ```
 
 ## Procesos
-Los sistemas operativos basados en linux son *multi-task*, esto quiere decir que la secuencia de ejecucion de programas la realizan de tal forma que pareciera que se estan realizando multiples tareas en simultaneo (esto es estrictamente asi cuando la computadora posee varias unidades de procesamiento, que hoy en dia es lo mas comun):
+
+Los sistemas operativos basados en linux son *multi-task*, esto quiere decir que la secuencia de ejecucion de programas la realizan de tal forma que pareciera que se estan realizando multiples tareas en simultaneo (esto es estrictamente asi cuando la computadora posee varias unidades de procesamiento, que hoy en dia es lo más común):
 
 Hay distintos comandos que nos dan informacion de los procesos que se estan ejecutando en la computadora:
 ```shell
@@ -267,6 +281,33 @@ Para terminar un proceso:
 usuario@pc:~$ kill <PID>    # mata proceso (PID)  OJOOO CON ESTO!!
 usuario@pc:~$ killall	      #mata proceso por nombre
 ```
+
+ver pID de proceso bash: `echo $$`
+
+
+## Señales
+
+
+```shell
+kill [señal] PID
+```
+
+
+Señales:
+
+Numero| Nombre | Significado           |
+------|--------|-----------------------|
+1     | ` HUP` | Hang up.              |
+2     | ` INT` | Interrupt. (CTRL -C)  |
+9     | `KILL` | Kill.                 |
+15    | `TERM` | Terminate. (default). |
+18    | `CONT` | Continue. Restaura proceso luego de una señal STOP |
+19    | `STOP` | Stop. Pausa sin terminar el proceso.               |
+
+3     | `QUIT` | Quit.                    |
+11    | `SEGV` | Segmentation violation.  |
+20    | `TSTP` | Terminal stop.           |
+28    |`WINCH` | Window change.           |
 
 ## COMANDOS UTILES:
 
@@ -327,4 +368,45 @@ usuario@pc:~$ date 	#fecha
 usuario@pc:~$ cal	#calendario cool
 usuario@pc:~$ uname 	#datos del sistema operativo
 usuario@pc:~$ env	#variables de ambiente
+usuario@pc:~$ df 	#                     
 ```
+
+
+
+## Variables internas:
+
+| Variable   |	Details |
+|------------|----------|
+| `$*` /`$@`      | Function/script positional parameters (arguments). Expand as follows:
+|                 | `$*` and `$@` are the same as $1 $2 ... (note that it generally makes no sense to leave those unquoted)
+|                 | `$*` is the same as "$1 $2 ..." 1
+|                 | `$@` is the same as "$1" "$2" ...
+|                 |  1. Arguments are separated by the first character of $IFS, which does not have to be a space.
+| `$#	          | Number of positional parameters passed to the script or function
+| `$!	          | Process ID of the last (righ-most for pipelines) command in the most recently job put into the background (note that it's not necessarily the same as the job's process group ID when job control is enabled)
+| `$$`	          | ID of the process that executed bash
+| `$?`	          | Exit status of the last command
+| `$n`	          | Positional parameters, where n=1, 2, 3, ..., 9
+| `${n}`          | Positional parameters (same as above), but n can be > 9
+| `$0`            | In scripts, path with which the script was invoked; with bash -c 'printf "%s\n" "$0"' name args': name (the first argument after the inline script), otherwise, the argv[0] that bash received.
+| `$_`	          | Last field of the last command
+| `$IFS`          | Internal field separator
+| `$PATH`         | PATH environment variable used to look-up executables
+| `$OLDPWD`       | Previous working directory
+| `$PWD`          | Present working directory
+| `$FUNCNAME`     | Array of function names in the execution call stack
+| `$BASH_SOURCE`  | Array containing source paths for elements in FUNCNAME array. Can be used to get the script path.
+| `$BASH_ALIASES` | Associative array containing all currently defined aliases
+| `$BASH_REMATCH` | Array of matches from the last regex match
+| `$BASH_VERSION` | Bash version string
+| `$BASH_VERSINFO`| An array of 6 elements with Bash version information
+| `$BASH`         | Absolute path to the currently executing Bash shell itself (heuristically determined by bash based on argv[0] and the value of $PATH; may be wrong in corner cases)
+| `$BASH_SUBSHELL` | Bash subshell level
+| `$UID`           | Real (not effective if different) User ID of the process running bash
+| `$PS1`           | Primary command line prompt; see Using the PS Variables
+| `$PS2`           | Secondary command line prompt (used for additional input)
+| `$PS3`           | Tertiary command line prompt (used in select loop)
+| `$PS4`           |Quaternary command line prompt (used to append info with verbose output)
+| `$RANDOM`        | A pseudo random integer between 0 and 32767
+| `$REPLY `        |Variable used by read by default when no variable is specified. Also used by select to return the user-supplied value
+| `$PIPESTATUS`  | Array variable that holds the exit status values of each command in the most recently executed foreground pipeline.
