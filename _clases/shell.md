@@ -15,10 +15,13 @@ nav_order: 1
 La *shell* consiste basicamente en una seríe de comandos (que en general son programas en C/C++ ya compilados, es decir ejecutables) que están disponibles para el usuario. La mayoria de los comandos tienen la siguiente sintaxis:
 
 ```shell
-mi_comando -opc1 -opc2 ... -opcN <arg1> <arg2> ... <argN>
+mi_comando -opciones <argumentos>
 ```
-donde `mi_comando` es el comando que queremos ejecutar. `-opc` son opciones de ejecución (tambien conocidas como *flags*), y `arg` son los argumentos del comando a ejecutar.
-
+donde `mi_comando` es el comando que queremos ejecutar. `-opciones` son opciones de ejecución (tambien conocidas como *flags*), y `argumentos` son los argumentos del comando a ejecutar. Por ejemplo:
+```shell
+ls -l /usr/bin
+```
+acá `ls` es un comando que lista los archivos contenidos en cierto directorio, `-l` es una opción para que el listado contenga ciertos detalles de los archivos, y el argumento es el directorio objetivo, en este caso: `/usr/bin`
 
 ## Comentarios
 
@@ -31,9 +34,9 @@ Los comentarios son partes de código ó comandos que no se ejecutan. En el caso
 Todo lo que sigue al simbolo **`#`** no hace absolutamente nada. No es algo demasiado útil en el contexto del *shell* (aunque sí en otros contextos), pero en este tutorial se van a usar bastante así que valía la pena mencionarlo.
 
 
-## Estructura de directorios en UNIX
+## Estructura de directorios en UNIX/Linux
 
-Los sistemas UNIX suelen tener una estructura de directorios (carpetas) bastante similar entre sí, acá vamos a describir solo los que nos incumben:
+Los sistemas UNIX suelen tener una estructura de directorios (carpetas) bastante similar entre sí, acá vamos a describir solo algunos:
 
 + `/`: Este es el directorio *base* ó *root* del arbol de archivos.
 + `/bin`: Acá se almacenan los *binarios* ó ejecutables, por ejemplo muchos de los comandos de la *shell* están acá dentro.
@@ -43,11 +46,11 @@ Los sistemas UNIX suelen tener una estructura de directorios (carpetas) bastante
 + `/usr`: Contiene ejecutables, librerias, y archivos copartidos.
   - `/usr/bin`: Archivos binarios compartidos entre usuarios. 
   - `/usr/include`: *headers* compartidos entre usuarios (usados por programas de C/C++).
-  - `/usr/lib`: librerias comaprtidas entre usuarios.
+  - `/usr/lib`: librerias compartidas entre usuarios.
 
 ## Prompt
 
-Cuando abras la terminal (con ``ctrl``+``T``) te vas a encontar con algo asi:
+Cuando abras la terminal (con ``ctrl``+``T``) vas a encontar con algo asi:
 ```shell
 usuario@pc:mi_dir$
 ```
@@ -56,61 +59,86 @@ Esto se conoce como **promt**, antecede siempre al cursor, y nos da alguna infor
 Lo primero que dice es quien es el usuario que va a ejecutar las instrucciones (*usuario*), luego del **`@`** dice desde que computadora (*pc*), seguido de **`:`** dice el directorio en el que estamos ubicados dentro de *pc*, y por ultimo un signo que indica los privilegios del usuario (**`$`**: usuario normal, **`#`**:superuser/admin).
 El prompt es completamente customizable y por lo tanto es posible encontrar otras estructuras, pero en general por default tienen estos elementos.
 
+
 ## Navegación
+
 Veamos como navegar en LINUX, esto es ir de una carpeta a otra y revisar el contenido.
 
-Para conocer la ubicacion absoluta en la que estamos (la del prompt es relativa a la carpeta principal del usuario) utilizamos:
+Para conocer la ubicacion absoluta en la que estamos (la del prompt es relativa a la carpeta principal del usuario) utilizamos el comando `pwd`:
 ```shell
 usuario@pc:~$ pwd
 /home/usuario
 ```
 
-Si queremos ver el contenido de la carpeta entonces escribimos:
+Si queremos ver el contenido de la carpeta donde estamos posicionados escribimos:
 ```shell
-usuario@pc:~$ ls	#muestra contenido del directorio, probar con opciones: -a -l
+usuario@pc:~$ ls	
 Desktop  Documents  Music  Pictures  Public  Templates Videos
 ```
 
-Para cambiar de directorio:
+Para "ir a" ó "cambiar" de directorio usamos `cd`:
 ```shell
-usuario@pc:~$ cd Desktop        #ir a directorio "Desktop"
-usuario@pc:~/Desktop$ cd ..	#volver a directorio madre
+usuario@pc:~$ cd Desktop   
+usuario@pc:~/Desktop$ cd ..
+usuario@pc:~$
 ```
+> notar que con `cd ..` retornamos al directorio *madre*.
 
 Para borrar la pantalla de comandos escribimos:
 ```shell
-usuario@pc:~$ clear	#limpia pantalla 
+usuario@pc:~$ clear
 ```
-> una alternativa de `clear` es `<ctl>+l`
+> una alternativa de `clear` es `<ctl>`+`l`
 
 ## Directorios y archivos
 Veamos como crear/borrar directorios y archivos:
 
 Para crear/borrar una carpeta existen los siguientes comandos:
 ```shell
-usuario@pc:~$ mkdir carpeta		#crea directorio
-usuario@pc:~$ rmdir carpeta		#elimina directorio
-usuario@pc:~$ rm -r carpeta		#elimina directorio y todo su contenido (OJO!!)
+usuario@pc:~$ mkdir carpeta	#crea directorio
+usuario@pc:~$ rmdir carpeta	#elimina directorio
+usuario@pc:~$ rm -r carpeta	#elimina directorio y todo su contenido (OJO!!)
 ```
 
 Para crear/borrar un archivo:
 ```shell
-usuario@pc:~$ touch archivo		#crea archivo/actualiza fecha de acceso
-usuario@pc:~$ rm archivo		#borrar archivo
+usuario@pc:~$ touch archivo	#crea archivo/actualiza fecha de acceso
+usuario@pc:~$ rm archivo	#borrar archivo
 ```
 
-Otras acciones que podemos hacer con directorios y archivos son:
+Otras acciones que podemos hacer con directorios y archivos son "copiar", "cortar" (mover) y "pegar":
 ```shell
 usuario@pc:~$ cp archivo archivo_copiado  #copiar archivo 
 usuario@pc:~$ mv archivo archivo_movido   #mover archivo (tambien sirve para renombrar)
-usuario@pc:~$ ln -s archivo link_archivo  #crear link simbolico ("acceso directo")
 ```
+
+## Links simbolicos vs duros
+
+Un análogo a los "accesos directos" de Windows son los links, y hay de dos tipos: simbólicos (*symlink*) y duros (*hard-links*)
+
+Un link simbólicos se crea así:
+```shell
+usuario@pc:~$ ln -s archivo link_archivo
+```
+Un link duro se crea así:
+```shell
+usuario@pc:~$ ln archivo link_archivo 
+```
+estos ultimos son más antiguos que los anteriores y tienen algunas limitaciones por lo que se acostumbra a usar links simbólicos.
+<!--
+Para entender la diferencia entre estos links es útil considerar que los archivos en consisten en dos partes: su nombre, y su contenido. Por 
+### Inodes
+```shell 
+ls -i
+```
+-->
+
 
 ## I/O
 Muchos de los comandos utilizados hasta ahora generan un output de algun tipo. 
 Estos outputs consisten en dos tipos:
-	- resultados que el programa esta diseñado a producir (*stdout*)
-	- mensajes de estado y error  (*stderr*)
+  - resultados que el programa esta diseñado a producir (*stdout*)
+  - estado y mensajes de error  (*stderr*)
 
 Por ejemplo en linux, `ls` manda sus resultados a un archivo especial llamado *stdout*, y su status a otro llamado *stderr*. Ambos estan linkeados por default con la pantalla.
 
@@ -132,15 +160,18 @@ usuario@pc:~$ echo "Algo" | xargs mkdir	   #xargs: ejecuta comandos de un standa
 
 ### Redirección stderr
 
+Para redireccionar el *stderr* usamos `2>`
 ```shell
 ls -l /bin/usr 2> /dev/null
 ```
 
-ver status
+### Status
 
+Luego de ejecutar un comando ó programa podemos revisar el estado del sistema para ver si se ejcuto correctamente:
 ```shell
 echo $?
 ```
+
 
 ## Archivos de texto:
 Para ver el contenido de un archivo de texto tenemos varias opciones:
@@ -157,13 +188,13 @@ usuario@pc:~$ less archivo  		#version moderna de less  ("more is less" xD)
 Si buscamos un editor de texto con más funciones, algunos de los mas conocidos son:
 
 ```shell
-usuario@pc:~$ vim archivo		#Editor de textos. (Recomiendo!)
-usuario@pc:~$ nano archivo		#Editor de textos.
-usuario@pc:~$ emacs archivo		#Editor de textos.
+usuario@pc:~$ vim archivo	#(Recomiendo!)
+usuario@pc:~$ nano archivo	#
+usuario@pc:~$ emacs archivo	#
 ```
 
 ### Editores *al vuelo*
-Un editor *on the fly* muy utilizado es:
+Un editor *on the fly* muy utilizado es `sed`:
 
 ```shell
 usuario@pc:~$ sed 's/ioeu/a/g' archivo	#Stream Editor
@@ -295,19 +326,20 @@ kill [señal] PID
 
 Señales:
 
-Numero| Nombre | Significado           |
-------|--------|-----------------------|
-1     | ` HUP` | Hang up.              |
-2     | ` INT` | Interrupt. (CTRL -C)  |
-9     | `KILL` | Kill.                 |
-15    | `TERM` | Terminate. (default). |
-18    | `CONT` | Continue. Restaura proceso luego de una señal STOP |
-19    | `STOP` | Stop. Pausa sin terminar el proceso.               |
 
-3     | `QUIT` | Quit.                    |
-11    | `SEGV` | Segmentation violation.  |
-20    | `TSTP` | Terminal stop.           |
-28    |`WINCH` | Window change.           |
+|Numero| Nombre | Significado           |
+|------|--------|-----------------------|
+|1     | ` HUP` | Hang up.              |
+|2     | ` INT` | Interrupt. (CTRL -C)  |
+|9     | `KILL` | Kill.                 |
+|15    | `TERM` | Terminate. (default). |
+|18    | `CONT` | Continue. Restaura proceso luego de una señal STOP |
+|19    | `STOP` | Stop. Pausa sin terminar el proceso.               |
+|3     | `QUIT` | Quit.                    |
+|11    | `SEGV` | Segmentation violation.  |
+|20    | `TSTP` | Terminal stop.           |
+|28    |`WINCH` | Window change.           |
+
 
 ## COMANDOS UTILES:
 
