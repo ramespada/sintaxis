@@ -6,7 +6,7 @@ description: Compilar progrmas usando Makefiles
 ready: true
 ---
 
-> make es una herramienta para mantener y gestionar programas complejos. Esta herramienta determina automáticamente que partes de un programa necesita ser recompilado e invoca comandos para su recompilación.
+> `make` es una herramienta para mantener y gestionar programas complejos. Esta herramienta determina automáticamente que partes de un programa necesita ser recompilado e invoca comandos para su recompilación.
 
 El programa `make` lee las instrucciones de un archivo de texto llamado `Makefile`.
 El `Makefile` contiene una serie de *reglas* que determinan que las dependencias de las distinas partes del programa para ser recompialado.

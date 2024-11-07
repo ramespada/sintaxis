@@ -10,7 +10,7 @@ ready: false
 > `gdb` o *GNU Debugger* es el depurador estándar para el compilador GNU. Es un depurador portable que se puede utilizar en varias plataformas Unix y funciona para varios lenguajes de programación como C, C++ y Fortran. GDB fue escrito por Richard Stallman en 1986. GDB es software libre distribuido bajo la licencia GPL. 
 
 
-Para poder usar `gdb` es necesario compilar nuestro programa con la flag `-g`, por ejemplo:
+Para poder usar `gdb` es necesario compilar nuestro programa con el flag `-g`, por ejemplo:
 
 ```shell
  $> gfortran -g mi_programa.f90
@@ -28,13 +28,30 @@ Para ejecutar `gdb` pasamos como arbumento el ejecutable:
 $> gdb a.out
 ```
 
-en caso que el programa tenga argumentos usamos la opción `--argos`:
+en caso que el programa tenga argumentos usamos la opción `--args`:
 ```shell
 $> gdb --args a.out arg1 arg2
 ```
- también es posible pasar los argumentos una vez iniciado gdb con el comando: `set args arg1 arg2`.
+también es posible pasar los argumentos una vez iniciado gdb con el comando: `set args arg1 arg2`.
 
 Una vez dentro de `gdb` vemos una linea de comando "interactiva", lo primero que hacemos es ejecutar el comando `run` para ejecutar el programa y parar donde encuentre un *segmentation fault*.
+
+Algunos comandos útiles:
+
+| función                    | short | descripción                                               |
+|:---------------------------|:-----:|:----------------------------------------------------------|
+| `run`                      | `r`   | ejecuta el programa hasta encontrar un break point ó error.    |
+| `continue`                 | `c`   | continua ejecutando el programa hasta encontrar un break point.|
+| `break` *<funcion/linea>*  | `b`   | crea *breakpoint*                                         |
+| `list`                     | `l`   | muestra contexto (codigo)                                 |  
+| `next`                     | `n`   | ejectuta el siguiente comando.                            |  
+| `up`                       |       | va hasta la función madre del bloque donde estamos.       |  
+| `down`                     |       | va hasta la siguiente funcion que es llamada.             | 
+| `print` *<variable>*       | `p`   | imprime valor de variable                                 |  
+| `display` *<variable>*     |       | imprime valor de variable cada vez que se ejecuta codigo  |
+| `backtrace`                | `bt`  | muestra la ruta de func. que se llamaron para llegar aqui |
+
+
 
 4.  Once GDB has started, you'll be in an interactive "shell" in which
     you can give GDB (and your program) commands. Start by having GDB
