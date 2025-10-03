@@ -3,7 +3,7 @@ layout: lecture
 date: 2023-02-03
 title: Debug 
 description: Herramientas para debbugear programas
-ready: false
+ready: true
 ---
 
 
