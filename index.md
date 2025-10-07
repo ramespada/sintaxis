@@ -10,7 +10,7 @@ No se asume conocimientos previos de programación, por lo que en la primer part
 
 El foco del curso está en exponer la sintaxis de programas escritos en C, Fortran, Python y R.
 
-Acá podés encontrár algunas de [aplicaciones](./ejemplos/) que trataremos en el curso.
+Acá podés encontrár [referencias](./biblio/) que usé para armar el curso.
 
 # Programa del curso
 
