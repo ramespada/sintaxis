@@ -5,7 +5,7 @@ date: 2022-01-01
 nav_order: 6
 phony: true
 noclass: true
-ready: false
+ready: true
 ---
 
 # C++

@@ -5,7 +5,7 @@ date: 2022-01-01
 nav_order: 6
 phony: true
 noclass: true
-ready: false
+ready: true
 ---
 
 > El lenguaje ensamblador (en inglés:*assembly* y la abreviación asm) es un lenguaje de programación de bajo nivel. Consiste en un conjunto de mnemónicos que representan instrucciones básicas para los computadores, microprocesadores, microcontroladores y otros circuitos integrados programables.
@@ -13,10 +13,10 @@ ready: false
 Este documento describe la sintaxis para núcleo Linux en procesadores intel x86 (32-bits).
 
 Ensablador es un lenguaje de *bajo nivel* de abstracción, esto le otorga las sieguientes características: 
-	- Dificil de leer y escribir por humanos.
-	- Requiere muchas más lineas de código que un lenguaje de alto nivel.
-	- Mayor control sobre el proceso a programar ya que se explicita el uso de memoria y recursos.
-	- Poco portable (depende de la arquitectura de la cpu)
+  - Dificil de leer y escribir por humanos.
+  - Requiere muchas más lineas de código que un lenguaje de alto nivel.
+  - Mayor control sobre el proceso a programar ya que se explicita el uso de memoria y recursos.
+  - Poco portable (depende de la arquitectura de la cpu)
 
 ## Hola mundo!
 
