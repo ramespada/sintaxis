@@ -3,8 +3,6 @@ title: C++
 description: Sintaxis básica de C++
 date: 2022-01-01
 nav_order: 6
-phony: true
-noclass: true
 ready: true
 ---
 
